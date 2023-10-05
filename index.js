@@ -10,7 +10,7 @@ let allQuestions = [
     {
         question: "4+4=?",
         correct: 8,
-        answers: [4,8,12],
+        answers: [4,8,12,44, 22],
     },
     {
         question: "13+3=?",
@@ -29,13 +29,35 @@ function startProgramm() {
 
 function generateQuestion() {
     let question = allQuestions[currentQuestion].question
-    main.innerHTML = `<h1 class = "question">${question}</h1>`
+    main.innerHTML = `<h1 class = "my-5" style="font-size:100px !important">${question}</h1>`
 
     let answers = allQuestions[currentQuestion].answers
     let btn_block = ' '
     for (let i of answers) {
-        btn_block += `<button class = "btn" onclick="checkQuestion(${i})">${i}</button>`
+        btn_block += `<button class = "btn btn-outline-primary fs-2" onclick="checkQuestion(${i})">${i}</button>`
     }
 
-    main.innerHTML += `<nav class = "btn_block">${btn_block}</nav>`
+    main.innerHTML += `<nav class = "d-flex justify-content-between" style ="width: 50vw !important">${btn_block}</nav>`
+}
+
+function checkQuestion(num) {
+    correct = allQuestions[currentQuestion].correct;
+    if (num == correct) {
+        countSuccess +=1;
+    }
+    currentQuestion +=1;
+    if (allQuestions.length > currentQuestion) {
+        generateQuestion();
+    } else {
+        stopQuiz();
+    }
+}
+
+function stopQuiz() {
+    start.classList.remove('none');
+    main.classList.add('none');
+    result.classList.remove('none');
+    result.innerText = `Решено ${countSuccess} из ${allQuestions.length}`;
+    currentQuestion = 0;
+    countSuccess = 0;
 }
